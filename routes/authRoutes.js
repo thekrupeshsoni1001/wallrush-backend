@@ -9,7 +9,7 @@ const {
 
 const { updateProfile } = require("../controllers/userController");
 const protect = require("../middleware/authMiddleware");
-const upload = require("../middleware/upload");
+// const upload = require("../middleware/upload");
 
 // ===========================
 // AUTH ROUTES
@@ -21,11 +21,17 @@ router.post("/google-login", googleLogin);
 // ===========================
 // PROFILE UPDATE
 // ===========================
+// router.put(
+//     "/update-profile",
+//     protect,
+//     upload.single("profile"),
+//     updateProfile
+// );
 router.put(
     "/update-profile",
     protect,
-    upload.single("profile"),
     updateProfile
 );
+
 
 module.exports = router;

@@ -10,12 +10,6 @@ const userSchema = new mongoose.Schema(
         },
         password: String,
         googleId: String,
-
-        // ✅ REQUIRED FOR PROFILE IMAGE
-        profile: {
-            type: String,
-            default: "",
-        },
     },
     { timestamps: true }
 );

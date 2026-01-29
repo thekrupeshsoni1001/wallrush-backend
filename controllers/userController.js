@@ -7,7 +7,6 @@ const bcrypt = require("bcryptjs");
 exports.updateProfile = async (req, res) => {
     try {
         const userId = req.user.id;
-
         const { name, password } = req.body;
 
         const user = await User.findById(userId);
@@ -15,18 +14,11 @@ exports.updateProfile = async (req, res) => {
             return res.status(404).json({ message: "User not found" });
         }
 
-        // Update name
         if (name) user.name = name;
 
-        // Update password
         if (password) {
             const hashed = await bcrypt.hash(password, 10);
             user.password = hashed;
-        }
-
-        // Update profile image
-        if (req.file) {
-            user.profile = `/uploads/${req.file.filename}`;
         }
 
         await user.save();
@@ -37,7 +29,6 @@ exports.updateProfile = async (req, res) => {
                 _id: user._id,
                 name: user.name,
                 email: user.email,
-                profile: user.profile,
             },
         });
     } catch (error) {
@@ -45,3 +36,4 @@ exports.updateProfile = async (req, res) => {
         res.status(500).json({ message: "Profile update failed" });
     }
 };
+

@@ -40,8 +40,8 @@ app.use("/api/saved", savedRoutes);
 app.use("/api/collections", collectionRoutes);
 app.use("/api/collection-wallpapers", collectionWallpaperRoutes);
 
-/* 🔥 FINAL FIX */
-app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
+// /* 🔥 FINAL FIX */
+// app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 
 /* =====================
    ERROR HANDLER

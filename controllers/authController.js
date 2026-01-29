@@ -62,7 +62,7 @@ exports.login = async (req, res) => {
 
 exports.googleLogin = async (req, res) => {
     try {
-        const { name, email, picture } = req.body;
+        const { name, email } = req.body;
 
         let user = await User.findOne({ email });
 
@@ -70,7 +70,6 @@ exports.googleLogin = async (req, res) => {
             user = await User.create({
                 name,
                 email,
-                profile: picture,
             });
         }
 
@@ -82,7 +81,7 @@ exports.googleLogin = async (req, res) => {
 
         res.json({
             token,
-            user
+            user,
         });
     } catch (err) {
         res.status(500).json({ message: "Google login failed" });
@@ -90,37 +89,3 @@ exports.googleLogin = async (req, res) => {
 };
 
 
-/* =======================
-   UPDATE PROFILE
-======================= */
-exports.updateProfile = async (req, res) => {
-    try {
-        const userId = req.user.id;
-
-        const updates = {};
-
-        if (req.body.name) updates.name = req.body.name;
-
-        if (req.body.password) {
-            const hashed = await bcrypt.hash(req.body.password, 10);
-            updates.password = hashed;
-        }
-
-        if (req.file) {
-            updates.profile = `/uploads/${req.file.filename}`;
-        }
-
-        const updatedUser = await User.findByIdAndUpdate(
-            userId,
-            { $set: updates },
-            { new: true }
-        );
-
-        res.json({
-            message: "Profile updated successfully",
-            user: updatedUser,
-        });
-    } catch (error) {
-        res.status(500).json({ message: "Profile update failed" });
-    }
-};
